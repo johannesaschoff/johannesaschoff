@@ -45,6 +45,25 @@ def update_game_data(data, sha):
     else:
         st.error(f"Failed to update game data: {response.json()}")
 
+
+def display_leaderboard(scores):
+    # Sort the scores in descending order
+    sorted_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True)
+    
+    # Initialize the leaderboard as a Markdown string
+    leaderboard_md = "## Leaderboard\n\n"
+    
+    # Add each user and their score to the leaderboard
+    for index, (user, score) in enumerate(sorted_scores):
+        # Add a crown icon for the leader
+        if index == 0:  # Check if this is the leader
+            leaderboard_md += f":crown: **{user}**: {score} points\n\n"
+        else:
+            leaderboard_md += f"**{user}**: {score} points\n\n"
+    
+    # Display the leaderboard using Streamlit's Markdown
+    st.markdown(leaderboard_md, unsafe_allow_html=True)
+
 def app():
     """Main Streamlit app function."""
     st.title("Golf Betting Game")
@@ -55,6 +74,8 @@ def app():
 
     st.write(f"Current Round: {game_data['current_round']}")
     st.write("Scores:", game_data['scores'])
+    display_leaderboard(game_data['scores'])
+
 
     if game_data['current_round'] > 4:
         winner = max(game_data['scores'], key=game_data['scores'].get)
@@ -75,6 +96,7 @@ def app():
             game_data['current_round'] += 1
             update_game_data(game_data, sha)
             st.success(f"{winner} wins Round {game_data['current_round'] - 1}!")
+    
 
 if __name__ == "__main__":
     app()
