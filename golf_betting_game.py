@@ -187,7 +187,10 @@ def app():
                                                           "Cameron Young (UNITED STATES)",
                                                           "Will Zalatoris (UNITED STATES)"], key=selection_key)
             
-            st.write(f"Locked in Player: {game_data['selection']}")
+            game_data['selections'][user] = selected_golfer
+            
+            # Display the locked-in player for this user
+            st.write(f"Locked in Player: {game_data['selections'][user]}")
 
         
         if st.button("Lock in Selections"):
