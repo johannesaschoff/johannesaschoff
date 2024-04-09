@@ -108,6 +108,9 @@ def app():
         if 'selections_locked' in st.session_state and st.session_state['selections_locked']:
             # Display confirmation message
             st.markdown("Your selections have been locked in for this round.")
+
+        st.image("https://leewybranski.com/wp-content/uploads/2021/03/2016-MASTERS-COURSE-MAP.jpg", width=200, use_column_width='always')
+
     
     with col2:
         display_leaderboard(game_data['scores'], col2)
