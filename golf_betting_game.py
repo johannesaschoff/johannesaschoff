@@ -138,12 +138,8 @@ def app():
         if 'selections_locked' in st.session_state and st.session_state['selections_locked']:
             # Display confirmation message
             st.markdown("Your selections have been locked in for this round.")
-
-        st.image("https://github.com/johannesaschoff/johannesaschoff/blob/main/2016-MASTERS-COURSE-MAP.jpg?raw=true", width=200, use_column_width='always')
-
-    
-    with col2:
         
+        container.markdown("## Scores")
         data = {
             "User 1": ["", "", "", ""],  
             "User 2": ["", "", "", ""], 
@@ -154,6 +150,12 @@ def app():
         
         df = pd.DataFrame(data, index=index)
         st.dataframe(df)
+
+        st.image("https://github.com/johannesaschoff/johannesaschoff/blob/main/2016-MASTERS-COURSE-MAP.jpg?raw=true", width=200, use_column_width='always')
+
+    
+    with col2:
+        
         
         display_leaderboard(game_data['scores'], col2)
 
