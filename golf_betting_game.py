@@ -11,12 +11,13 @@ headers = {
 
 # GitHub repository and file details
 repo = "johannesaschoff/johannesaschoff"
-file_path = "johannesaschoff/game_data.json"
+file_path = "game_data.json"
 branch = "main"
 
 # Utility function to get the full path for the API URL
 def get_api_url():
     return f"https://api.github.com/repos/{repo}/contents/{file_path}?ref={branch}"
+
 
 # Read game data from GitHub
 def read_game_data():
