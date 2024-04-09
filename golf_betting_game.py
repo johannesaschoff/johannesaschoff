@@ -81,7 +81,6 @@ def app():
 
     st.write(f"Current Round: {game_data['current_round']}")
 
-    
     col1, col2 = st.columns([3, 1])
     
     with col1:
@@ -92,15 +91,24 @@ def app():
         
         st.subheader("Select Your Golfer")
         for user in ["User 1", "User 2"]:
+            # Ensure each selection box is uniquely keyed
+            selection_key = f"{user}_selection_{game_data['current_round']}"
             game_data['selections'][user] = st.selectbox(f"{user}, select your golfer:",
-                                                         ['Golfer 1', 'Golfer 2', 'Golfer 3', 'Golfer 4', 'Golfer 5'], key=user)
+                                                         ['Golfer 1', 'Golfer 2', 'Golfer 3', 'Golfer 4', 'Golfer 5'], key=selection_key)
         
         if st.button("Lock in Selections"):
             game_data['current_round'] += 1
             update_game_data(game_data, sha)
+            # Use session_state to track that selections are locked in for this round
+            st.session_state['selections_locked'] = True
+
+        if 'selections_locked' in st.session_state and st.session_state['selections_locked']:
+            # Display confirmation message
+            st.markdown("Your selections have been locked in for this round.")
     
     with col2:
         display_leaderboard(game_data['scores'], col2)
+
 
 if __name__ == "__main__":
     app()
