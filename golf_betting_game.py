@@ -73,7 +73,7 @@ def app():
         st.stop()
 
     st.write(f"Current Round: {game_data['current_round']}")
-    st.write("Scores:", game_data['scores'])
+    #st.write("Scores:", game_data['scores'])
     display_leaderboard(game_data['scores'])
 
 
