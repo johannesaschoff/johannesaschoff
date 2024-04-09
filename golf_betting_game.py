@@ -133,7 +133,12 @@ def app():
         if st.button("Lock in Selections"):
             update_game_data(game_data, sha)
             # Use session_state to track that selections are locked in for this round
+            game_data['current_round'] += 1
+    
+            # Save the updated game data back to GitHub
+            update_game_data(game_data, sha)
             st.session_state['selections_locked'] = True
+            
 
         if 'selections_locked' in st.session_state and st.session_state['selections_locked']:
             # Display confirmation message
@@ -141,10 +146,12 @@ def app():
         
         st.subheader("Scores")
         data = {
-            "User 1": ["", "", "", ""],  
-            "User 2": ["", "", "", ""], 
-            "Place": ["", "", "", ""]  
+            "User 1": game_data['selections']['User 1'],  # Directly use the list stored in game_data
+            "User 2": game_data['selections']['User 2'],  # Directly use the list stored in game_data
+            "Place": ["", "", "", ""]  # Placeholder for now, adjust as needed
         }
+
+df = pd.DataFrame(data, index=index)
         
         index = ["Round 1 - 11 Apr. 2024", "Round 2 - 12 Apr. 2024", "Round 3 - 13 Apr. 2024", "Round 4 - 14 Apr. 2024"]
         
