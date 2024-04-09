@@ -74,21 +74,34 @@ def display_leaderboard(scores, container):
 def app():
     st.title("Golf Betting Game")
     
-    # Layout with 2 columns: Left for selections, right for leaderboard
+    # Fetch the current game data from GitHub
+    game_data, sha = read_game_data()
+    if not game_data:
+        st.stop()
+    
     col1, col2 = st.columns([3, 1])
     
-    # Adjust the game data as per your actual game's data structure
-    game_data = {
-        "scores": {"User 1": 5, "User 2": 3}  # Adjusted to two users for this example
-    }
-    
     with col1:
+        if game_data['current_round'] > 4:
+            winner = max(game_data['scores'], key=game_data['scores'].get)
+            st.header(f"Game Over - Winner: {winner}")
+            return
+        
         st.subheader("Select Your Golfer")
-        # Example selection box for each user
-        for user in game_data['scores'].keys():
-            st.selectbox(f"{user}, select your golfer:",
-                         ['Golfer 1', 'Golfer 2', 'Golfer 3', 'Golfer 4', 'Golfer 5'],
-                         key=user)
+        for user in ["User 1", "User 2"]:
+            game_data['selections'][user] = st.selectbox(f"{user}, select your golfer:",
+                                                         ['Golfer 1', 'Golfer 2', 'Golfer 3', 'Golfer 4', 'Golfer 5'], key=user)
+        
+        if st.button("Lock in Selections"):
+            update_game_data(game_data, sha)
+        
+        if st.button("Set Round Winner"):
+            winner = st.radio("Who won the round?", ["User 1", "User 2"], key="winner_selection")
+            if winner:
+                game_data['scores'][winner] += 1
+                game_data['current_round'] += 1
+                update_game_data(game_data, sha)
+                st.success(f"{winner} wins Round {game_data['current_round'] - 1}!")
     
     with col2:
         display_leaderboard(game_data['scores'], col2)
