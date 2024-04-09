@@ -162,7 +162,30 @@ def app():
                                                           "J.T. Poston (UNITED STATES)",
                                                           "Jon Rahm (SPAIN)",
                                                           "Patrick Reed (UNITED STATES)",
-                                                          "Justin Rose (ENGLAND)",], key=selection_key)
+                                                          "Justin Rose (ENGLAND)",
+                                                          "Xander Schauffele (UNITED STATES)",
+                                                          "Scottie Scheffler (UNITED STATES)",
+                                                          "Adam Schenk (UNITED STATES)",
+                                                          "Charl Schwartzel (SOUTH AFRICA)",
+                                                          "Adam Scott (AUSTRALIA)",
+                                                          "Neal Shipley (A) (UNITED STATES)",
+                                                          "Vijay Singh (FIJI)",
+                                                          "Cameron Smith (AUSTRALIA)",
+                                                          "Jordan Spieth (UNITED STATES)",
+                                                          "Sepp Straka (AUSTRIA)",
+                                                          "Jasper Stubbs (A) (AUSTRALIA)",
+                                                          "Nick Taylor (CANADA)",
+                                                          "Sahith Theegala (UNITED STATES)",
+                                                          "Justin Thomas (UNITED STATES)",
+                                                          "Erik van Rooyen (SOUTH AFRICA)",
+                                                          "Camilo Villegas (COLOMBIA)",
+                                                          "Bubba Watson (UNITED STATES)",
+                                                          "Mike Weir (CANADA)",
+                                                          "Danny Willett (ENGLAND)",
+                                                          "Gary Woodland (UNITED STATES)",
+                                                          "Tiger Woods (UNITED STATES)",
+                                                          "Cameron Young (UNITED STATES)",
+                                                          "Will Zalatoris (UNITED STATES)"], key=selection_key)
         
         if st.button("Lock in Selections"):
             game_data['current_round'] += 1
