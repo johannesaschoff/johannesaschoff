@@ -131,11 +131,8 @@ def app():
         
         if st.button("Lock in Selections"):
             update_game_data(game_data, sha)
-            # Use session_state to track that selections are locked in for this round
-            game_data['current_round'] += 1
-    
+            # Use session_state to track that selections are locked in for this round    
             # Save the updated game data back to GitHub
-            update_game_data(game_data, sha)
             st.session_state['selections_locked'] = True
             
 
