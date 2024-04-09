@@ -72,6 +72,9 @@ def display_leaderboard(scores, container):
                 """, unsafe_allow_html=True)
 
 def app():
+
+    st.image("https://photo-assets.masters.com/images/pics/misc/Masters_Lockup1A_RGB.png", width=200, use_column_width='always')
+
     st.title("Golf Betting Game")
     
     # Fetch the current game data from GitHub
