@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import json
 import base64
+import pandas as pd
 
 # Securely load your GitHub token from Streamlit secrets
 GITHUB_TOKEN = st.secrets["GITHUB_TOKEN"]
