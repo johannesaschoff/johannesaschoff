@@ -185,25 +185,25 @@ def app():
 
         if st.button("Lock in Selections"):
             # Update the selections in game_data for the current round
-            game_data['selections']["User 1"][game_data['current_round'] - 1] = "Player A"
-            game_data['selections']["User 2"][game_data['current_round'] - 1] = "Player B"
+        #    game_data['selections']["User 1"][game_data['current_round'] - 1] = "Player A"
+        #    game_data['selections']["User 2"][game_data['current_round'] - 1] = "Player B"
         
             # Update game data on GitHub before incrementing the round
-            update_game_data(game_data, sha)
+    #        update_game_data(game_data, sha)
             
             # Now update the DataFrame to reflect these selections
-            update_dataframe()  # Make sure this reflects the latest selections
+   #         update_dataframe()  # Make sure this reflects the latest selections
             
             # Increment the round and update game data again to reflect the new round
             update_game_data(game_data, sha)
         
-            st.session_state['selections_locked'] = True
+   #         st.session_state['selections_locked'] = True
 
         
 
-        if 'selections_locked' in st.session_state and st.session_state['selections_locked']:
+  #      if 'selections_locked' in st.session_state and st.session_state['selections_locked']:
             # Display confirmation message
-            st.markdown("Your selections have been locked in for this round.")
+   #         st.markdown("Your selections have been locked in for this round.")
 
         
   #      update_dataframe(game_data['current_round']-1, game_data['selections']["User 1"], game_data['selections']["User 2"])
