@@ -73,7 +73,7 @@ def display_leaderboard(scores, container):
 
 def app():
 
-    st.image("https://photo-assets.masters.com/images/pics/misc/Masters_Lockup1A_RGB.png", width=50)
+    st.image("https://photo-assets.masters.com/images/pics/misc/Masters_Lockup1A_RGB.png", width=200)
 
     st.title("Golf Betting Game")
     
