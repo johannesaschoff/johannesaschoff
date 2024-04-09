@@ -5,7 +5,7 @@ import base64
 import os
 
 # Securely load your GitHub token from an environment variable
-GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
+GITHUB_TOKEN = st.secrets["GITHUB_TOKEN"]
 
 headers = {
     "Authorization": f"token {GITHUB_TOKEN}",
