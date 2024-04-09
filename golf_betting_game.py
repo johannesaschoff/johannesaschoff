@@ -57,21 +57,21 @@ def display_leaderboard(scores, container):
     # Add each user and their score to the leaderboard
     for index, (user, score) in enumerate(sorted_scores):
         # Use HTML for custom alignment and styling
-        if index == 0:  # Leader gets a crown to the left of their name
+        if index == 0:  # Leader gets a crown
             container.markdown(f"""
-                <div style="display:flex;align-items:center;">
-                    <span style="color:gold;">&#x1F451;&nbsp;</span>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
                     <span style="font-weight:bold;">{user}:</span>
-                    <span>&nbsp;{score} points</span>
+                    <span>{score} points <span style="color:gold;">&nbsp;&#x1F451;</span></span>
                 </div>
                 """, unsafe_allow_html=True)
         else:
             container.markdown(f"""
-                <div style="display:flex;align-items:center;">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
                     <span style="font-weight:bold;">{user}:</span>
-                    <span>&nbsp;{score} points</span>
+                    <span>{score} points</span>
                 </div>
                 """, unsafe_allow_html=True)
+
 
 def app():
     st.title("Golf Betting Game")
