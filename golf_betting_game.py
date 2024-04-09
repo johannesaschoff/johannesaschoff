@@ -47,18 +47,28 @@ def dataframe():
     return pd.DataFrame(data, index=index)
 
 
-def update_dataframe(round_number, user1_value, user2_value):
-    """Updates the DataFrame stored in session state with new values for a specific round."""
+def update_dataframe():
+    """Updates the DataFrame with selections from all rounds up to the current one."""
     if 'df' not in st.session_state:
         st.session_state.df = dataframe()
-        df = st.session_state.df
-
-        df.at[df.index[round_number], "User 1"] = user1_value
-        df.at[df.index[round_number], "User 2"] = user2_value
     
-        st.session_state.df = df
-        st.subheader("Scores")
-        st.dataframe(df)
+    df = st.session_state.df
+    
+    # Iterate through each round up to the current one to update selections
+    for round_number in range(1, game_data['current_round'] + 1):
+        round_index = round_number - 1  # Convert to 0-based indexing for DataFrame
+        # Update DataFrame with selections from game_data
+        user1_selection = game_data['selections']['User 1'][round_index]
+        user2_selection = game_data['selections']['User 2'][round_index]
+        if user1_selection and user2_selection:  # Ensure there's actually a selection to update
+            df.at[df.index[round_index], 'User 1'] = user1_selection
+            df.at[df.index[round_index], 'User 2'] = user2_selection
+            # Assume 'Place' is calculated or updated elsewhere
+
+    # Save the updated DataFrame back to session state
+    st.session_state.df = df
+    st.subheader("Scores")
+    st.dataframe(df)
 
     
 def update_game_data(data, sha):
@@ -171,6 +181,24 @@ def app():
             update_game_data(game_data, sha)
             # Use session_state to track that selections are locked in for this round
             st.session_state['selections_locked'] = True
+
+
+        if st.button("Lock in Selections"):
+            # Update the selections in game_data for the current round
+            game_data['selections']["User 1"][game_data['current_round'] - 1] = selected_golfer_user1
+            game_data['selections']["User 2"][game_data['current_round'] - 1] = selected_golfer_user2
+        
+            # Update game data on GitHub before incrementing the round
+            update_game_data(game_data, sha)
+            
+            # Now update the DataFrame to reflect these selections
+            update_dataframe()  # Make sure this reflects the latest selections
+            
+            # Increment the round and update game data again to reflect the new round
+            update_game_data(game_data, sha)
+        
+            st.session_state['selections_locked'] = True
+
         
 
         if 'selections_locked' in st.session_state and st.session_state['selections_locked']:
