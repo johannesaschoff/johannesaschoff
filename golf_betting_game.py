@@ -143,17 +143,7 @@ def app():
         if 'selections_locked' in st.session_state and st.session_state['selections_locked']:
             # Display confirmation message
             st.markdown("Your selections have been locked in for this round.")
-        
-        st.subheader("Scores")
-        data = {
-            "User 1": game_data['selections']['User 1'],  # Directly use the list stored in game_data
-            "User 2": game_data['selections']['User 2'],  # Directly use the list stored in game_data
-            "Place": ["", "", "", ""]  # Placeholder for now, adjust as needed
-        }
-        index = ["Round 1 - 11 Apr. 2024", "Round 2 - 12 Apr. 2024", "Round 3 - 13 Apr. 2024", "Round 4 - 14 Apr. 2024"]
-                
-        df = pd.DataFrame(data, index=index)
-        st.dataframe(df)
+    
 
         st.image("https://github.com/johannesaschoff/johannesaschoff/blob/main/2016-MASTERS-COURSE-MAP.jpg?raw=true", width=200, use_column_width='always')
 
