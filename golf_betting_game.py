@@ -94,6 +94,9 @@ def app():
         
         st.subheader("Select Your Golfer")
         for user in ["User 1", "User 2"]:
+
+            last_selection = game_data['selections'].get(user, "")
+
             # Ensure each selection box is uniquely keyed
             selection_key = f"{user}_selection_{game_data['current_round']}"
             selected_golfer = st.selectbox(f"{user}, select your golfer:",
@@ -185,7 +188,7 @@ def app():
                                                           "Gary Woodland (UNITED STATES)",
                                                           "Tiger Woods (UNITED STATES)",
                                                           "Cameron Young (UNITED STATES)",
-                                                          "Will Zalatoris (UNITED STATES)"], key=selection_key)
+                                                          "Will Zalatoris (UNITED STATES)"], index=golfers.index(last_selection), key=selection_key)
                         
             game_data['selections'][user] = selected_golfer
 
