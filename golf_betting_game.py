@@ -83,7 +83,7 @@ def app():
         st.stop()
 
     st.write(f"Current Round: {game_data['current_round']}")
-    st.write(f"Deadline: {game_data['deadline']}")
+    st.write(f"Deadline first round: {game_data['deadline']}")
 
 
     golfers = ["Ludvig Aberg (SWEDEN)", "Byeong Hun An (KOREA)", "Akshay Bhatia (UNITED STATES)", "Keegan Bradley (UNITED STATES)",
