@@ -180,10 +180,10 @@ def app():
         if st.button("Lock in Selections"):
             update_game_data(game_data, sha)
             # Use session_state to track that selections are locked in for this round
-            st.session_state['selections_locked'] = True
+     #       st.session_state['selections_locked'] = True
 
 
-        if st.button("Lock in Selections"):
+   #     if st.button("Lock in Selections"):
             # Update the selections in game_data for the current round
         #    game_data['selections']["User 1"][game_data['current_round'] - 1] = "Player A"
         #    game_data['selections']["User 2"][game_data['current_round'] - 1] = "Player B"
@@ -195,7 +195,7 @@ def app():
    #         update_dataframe()  # Make sure this reflects the latest selections
             
             # Increment the round and update game data again to reflect the new round
-            update_game_data(game_data, sha)
+    #        update_game_data(game_data, sha)
         
    #         st.session_state['selections_locked'] = True
 
