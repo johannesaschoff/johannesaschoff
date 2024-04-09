@@ -1,7 +1,11 @@
+
+
+
 import streamlit as st
 import requests
 import json
 import base64
+import pandas as pd
 
 # Securely load your GitHub token from Streamlit secrets
 GITHUB_TOKEN = st.secrets["GITHUB_TOKEN"]
@@ -131,15 +135,24 @@ def app():
         
         if st.button("Lock in Selections"):
             update_game_data(game_data, sha)
-            # Use session_state to track that selections are locked in for this round    
-            # Save the updated game data back to GitHub
+            # Use session_state to track that selections are locked in for this round
             st.session_state['selections_locked'] = True
-            
 
         if 'selections_locked' in st.session_state and st.session_state['selections_locked']:
             # Display confirmation message
             st.markdown("Your selections have been locked in for this round.")
-    
+        
+        st.subheader("Scores")
+        data = {
+            "User 1": ["", "", "", ""],  
+            "User 2": ["", "", "", ""], 
+            "Place": ["", "", "", ""]  
+        }
+        
+        index = ["Round 1 - 11 Apr. 2024", "Round 2 - 12 Apr. 2024", "Round 3 - 13 Apr. 2024", "Round 4 - 14 Apr. 2024"]
+        
+        df = pd.DataFrame(data, index=index)
+        st.dataframe(df)
 
         st.image("https://github.com/johannesaschoff/johannesaschoff/blob/main/2016-MASTERS-COURSE-MAP.jpg?raw=true", width=200, use_column_width='always')
 
@@ -151,4 +164,4 @@ def app():
 
 
 if __name__ == "__main__":
-    app()
+    app() 
