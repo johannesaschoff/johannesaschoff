@@ -1,54 +1,61 @@
 import streamlit as st
+import requests
 import json
-import os
+import base64
 
-# File path for the JSON file to store data
-data_file = 'golf_betting_game_data.json'
+# GitHub API headers with your personal access token
+headers = {
+    "Authorization": "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",
+    "Accept": "application/vnd.github.v3+json"
+}
 
-# Initialize or load game data
-def load_game_data():
-    if os.path.exists(data_file):
-        with open(data_file, 'r') as file:
-            return json.load(file)
+# GitHub repository and file details
+repo = "johannesaschoff/johannesaschoff"
+file_path = "johannesaschoff/game_data.json"
+branch = "main"
+
+# Utility function to get the full path for the API URL
+def get_api_url():
+    return f"https://api.github.com/repos/{repo}/contents/{file_path}?ref={branch}"
+
+# Read game data from GitHub
+def read_game_data():
+    response = requests.get(get_api_url(), headers=headers)
+    response_json = response.json()
+    content = base64.b64decode(response_json['content']).decode('utf-8')
+    return json.loads(content), response_json['sha']
+
+# Update game data on GitHub
+def update_game_data(data, sha):
+    update_data = {
+        "message": "Update game data",
+        "content": base64.b64encode(json.dumps(data).encode('utf-8')).decode('utf-8'),
+        "branch": branch,
+        "sha": sha
+    }
+    response = requests.put(get_api_url(), headers=headers, data=json.dumps(update_data))
+    if response.status_code == 200:
+        st.success("Game data updated successfully!")
     else:
-        return {'current_round': 1, 'scores': {'User 1': 0, 'User 2': 0}, 'selections': {}}
+        st.error("Failed to update game data.")
 
-# Save game data
-def save_game_data(data):
-    with open(data_file, 'w') as file:
-        json.dump(data, file)
-
-# App main function
+# Streamlit app layout
 def app():
-    # Load the game state
-    game_data = load_game_data()
-    
-    golfers = ['Golfer 1', 'Golfer 2', 'Golfer 3', 'Golfer 4', 'Golfer 5']
-    
-    st.title("Golf Betting Game")
-    
-    if game_data['current_round'] > 4:
-        st.header("Game Over")
-        winner = max(game_data['scores'], key=game_data['scores'].get)
-        st.subheader(f"{winner} Wins!")
-        st.write(game_data['scores'])
-        return
-    
-    st.header(f"Round {game_data['current_round']}")
-    for user in ['User 1', 'User 2']:
-        game_data['selections'][user] = st.selectbox(f"{user}, select your golfer for round {game_data['current_round']}:", golfers, key=user)
-    
-    if st.button('Lock in Selections'):
-        save_game_data(game_data)
-        st.write("Selections locked in. Refresh the page to see the current selections.")
-        
-    winner = st.radio("Select the round winner:", ['None', 'User 1', 'User 2'])
-    if winner != 'None':
-        game_data['scores'][winner] += 1
-        game_data['current_round'] += 1
-        save_game_data(game_data)
-        st.success(f"{winner} wins Round {game_data['current_round'] - 1}!")
-        st.button('Next Round')
+    game_data, sha = read_game_data()
 
+    st.title("Golf Betting Game")
+
+    # Display current round and scores
+    st.header(f"Round {game_data['current_round']}")
+    st.write("Scores:", game_data['scores'])
+
+    # Let users select golfers
+    for user in ["User 1", "User 2"]:
+        game_data['selections'][user] = st.selectbox(f"{user}, select your golfer:", ['Golfer 1', 'Golfer 2', 'Golfer 3', 'Golfer 4', 'Golfer 5'], key=user)
+
+    if st.button('Lock in Selections'):
+        update_game_data(game_data, sha)
+
+# Run the app
 if __name__ == "__main__":
     app()
