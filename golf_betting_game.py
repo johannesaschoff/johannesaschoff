@@ -160,8 +160,6 @@ def app():
             # Display confirmation message
             st.markdown("Your selections have been locked in for this round.")
 
-        dataframe()
-
         st.image("https://github.com/johannesaschoff/johannesaschoff/blob/main/2016-MASTERS-COURSE-MAP.jpg?raw=true", width=200, use_column_width='always')
 
     
