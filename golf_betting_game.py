@@ -186,6 +186,9 @@ def app():
                                                           "Tiger Woods (UNITED STATES)",
                                                           "Cameron Young (UNITED STATES)",
                                                           "Will Zalatoris (UNITED STATES)"], key=selection_key)
+            
+            st.write(f"Locked in Player: {game_data['current_round']}")
+
         
         if st.button("Lock in Selections"):
             update_game_data(game_data, sha)
