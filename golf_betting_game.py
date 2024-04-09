@@ -150,11 +150,8 @@ def app():
             "User 2": game_data['selections']['User 2'],  # Directly use the list stored in game_data
             "Place": ["", "", "", ""]  # Placeholder for now, adjust as needed
         }
-
-df = pd.DataFrame(data, index=index)
-        
         index = ["Round 1 - 11 Apr. 2024", "Round 2 - 12 Apr. 2024", "Round 3 - 13 Apr. 2024", "Round 4 - 14 Apr. 2024"]
-        
+                
         df = pd.DataFrame(data, index=index)
         st.dataframe(df)
 
