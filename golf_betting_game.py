@@ -139,7 +139,7 @@ def app():
             # Display confirmation message
             st.markdown("Your selections have been locked in for this round.")
         
-        container.markdown("## Scores")
+        st.write("Scores")
         data = {
             "User 1": ["", "", "", ""],  
             "User 2": ["", "", "", ""], 
