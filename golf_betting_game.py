@@ -36,7 +36,7 @@ def read_game_data():
         return {}, ""
 
 
-def dataframe(round_number, user1_value, user2_value):
+def dataframe():
     st.subheader("Scores")
     data = {
         "User 1": ["", "", "", ""],  
@@ -45,13 +45,23 @@ def dataframe(round_number, user1_value, user2_value):
     }
         
     index = ["Round 1 - 11 Apr. 2024", "Round 2 - 12 Apr. 2024", "Round 3 - 13 Apr. 2024", "Round 4 - 14 Apr. 2024"]
-    df = pd.DataFrame(data, index=index)
-    
-    df.at[index[round_number], "User 1"] = user1_value
-    df.at[index[round_number], "User 2"] = user2_value
-    
-    st.dataframe(df)
+    return df = pd.DataFrame(data, index=index)
 
+
+def update_dataframe(round_number, user1_value, user2_value):
+    """Updates the DataFrame stored in session state with new values for a specific round."""
+    if 'df' not in st.session_state:
+        st.session_state.df = init_dataframe()
+        df = st.session_state.df
+
+        df.at[index[round_number], "User 1"] = user1_value
+        df.at[index[round_number], "User 2"] = user2_value
+    
+        st.session_state.df = df
+        st.subheader("Scores")
+        st.dataframe(df)
+
+    
 def update_game_data(data, sha):
     """Function to update game data on GitHub."""
     update_data = {
@@ -169,7 +179,7 @@ def app():
             st.markdown("Your selections have been locked in for this round.")
 
         
-        dataframe(game_data['current_round']-1, game_data['selections']["User 1"], game_data['selections']["User 2"])
+        update_dataframe(game_data['current_round']-1, game_data['selections']["User 1"], game_data['selections']["User 2"])
 
 
         st.image("https://github.com/johannesaschoff/johannesaschoff/blob/main/2016-MASTERS-COURSE-MAP.jpg?raw=true", width=200, use_column_width='always')
