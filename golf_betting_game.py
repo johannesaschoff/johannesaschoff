@@ -51,7 +51,7 @@ def dataframe():
 def update_dataframe(round_number, user1_value, user2_value):
     """Updates the DataFrame stored in session state with new values for a specific round."""
     if 'df' not in st.session_state:
-        st.session_state.df = init_dataframe()
+        st.session_state.df = dataframe()
         df = st.session_state.df
 
         df.at[index[round_number], "User 1"] = user1_value
