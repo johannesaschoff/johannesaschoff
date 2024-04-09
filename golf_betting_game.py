@@ -187,7 +187,7 @@ def app():
                                                           "Cameron Young (UNITED STATES)",
                                                           "Will Zalatoris (UNITED STATES)"], key=selection_key)
             
-            st.write(f"Locked in Player: {game_data['current_round']}")
+            st.write(f"Locked in Player: {game_data['selection']}")
 
         
         if st.button("Lock in Selections"):
