@@ -158,7 +158,7 @@ def app():
             return
         
         st.subheader("Select Your Golfer")
-        for user in ["User 1", "User 2"]:
+        for user in ["Maxima", "Johannes"]:
             last_selection = game_data['selections'].get(user, "")
 
             
