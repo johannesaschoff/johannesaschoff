@@ -46,11 +46,16 @@ def update_game_data(data, sha):
         st.error(f"Failed to update game data: {response.json()}")
 
 
-
 def display_leaderboard(scores, container):
+    # Sort the scores in descending order
     sorted_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True)
+    
+    # Add the leaderboard header
     container.markdown("## Leaderboard")
+    
+    # Add each user and their score to the leaderboard
     for index, (user, score) in enumerate(sorted_scores):
+        # Use HTML for custom alignment and styling
         if index == 0:  # Leader gets a crown to the left of their name
             container.markdown(f"""
                 <div style="display:flex;align-items:center;">
@@ -66,6 +71,7 @@ def display_leaderboard(scores, container):
                     <span>&nbsp;{score} points</span>
                 </div>
                 """, unsafe_allow_html=True)
+
 
 def app():
     st.title("Golf Betting Game")
