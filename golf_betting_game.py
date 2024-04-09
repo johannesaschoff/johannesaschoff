@@ -96,7 +96,7 @@ def app():
         for user in ["User 1", "User 2"]:
             # Ensure each selection box is uniquely keyed
             selection_key = f"{user}_selection_{game_data['current_round']}"
-            game_data['selections'][user] = st.selectbox(f"{user}, select your golfer:",
+            selected_golfer = st.selectbox(f"{user}, select your golfer:",
                                                          ["Ludvig Aberg (SWEDEN)", 
                                                           "Byeong Hun An (KOREA)", 
                                                           "Akshay Bhatia (UNITED STATES)",
@@ -187,6 +187,8 @@ def app():
                                                           "Cameron Young (UNITED STATES)",
                                                           "Will Zalatoris (UNITED STATES)"], key=selection_key)
                         
+            game_data['selections'][user] = selected_golfer
+
             # Display the locked-in player for this user
             st.write(f"Locked in Player: {game_data['selections'][user]}")
 
