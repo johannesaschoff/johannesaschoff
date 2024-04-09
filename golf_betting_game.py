@@ -78,6 +78,9 @@ def app():
     game_data, sha = read_game_data()
     if not game_data:
         st.stop()
+
+    st.write(f"Current Round: {game_data['current_round']}")
+
     
     col1, col2 = st.columns([3, 1])
     
