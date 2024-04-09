@@ -142,6 +142,16 @@ def app():
 
     
     with col2:
+        data = {
+            "User 1": ["", "", "", ""],  # Fill these with your actual data or leave as placeholders
+            "User 2": ["", "", "", ""],  # Fill these with your actual data or leave as placeholders
+            "Place": ["", "", "", ""]  # Fill these with your actual data or leave as placeholders
+        }
+        index = ["Round 1", "Round 2", "Round 3", "Round 4"]
+        df = pd.DataFrame(data, index=index)
+
+        # Display the DataFrame
+        st.dataframe(df)
         display_leaderboard(game_data['scores'], col2)
 
 
