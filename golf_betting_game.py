@@ -109,7 +109,7 @@ def app():
             # Display confirmation message
             st.markdown("Your selections have been locked in for this round.")
 
-        st.image("https://leewybranski.com/wp-content/uploads/2021/03/2016-MASTERS-COURSE-MAP.jpg", width=200, use_column_width='always')
+        st.image("https://github.com/johannesaschoff/johannesaschoff/blob/main/2016-MASTERS-COURSE-MAP.jpg?raw=true", width=200, use_column_width='always')
 
     
     with col2:
