@@ -120,12 +120,17 @@ def app():
         
         st.subheader("Select Your Golfer")
         for user in ["User 1", "User 2"]:
-
             last_selection = game_data['selections'].get(user, "")
 
-            # Ensure each selection box is uniquely keyed
+            
             selection_key = f"{user}_selection_{game_data['current_round']}"
-            selected_golfer = st.selectbox(f"{user}, select your golfer:", options = golfers, index=golfers.index(last_selection), key=selection_key)
+
+            if last_selection in golfers:
+                selected_index = golfers.index(last_selection)
+            else:
+                selected_index = 0  # Default to first golfer if last selection is not found
+
+            selected_golfer = st.selectbox(f"{user}, select your golfer:", options=golfers, index=selected_index, key=selection_key)
                         
             game_data['selections'][user] = selected_golfer
 
