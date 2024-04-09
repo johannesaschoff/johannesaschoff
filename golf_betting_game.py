@@ -35,6 +35,19 @@ def read_game_data():
         st.error(f"Failed to fetch game data: {response.json()}")
         return {}, ""
 
+
+def dataframe():
+    st.subheader("Scores")
+    data = {
+        "User 1": ["", "", "", ""],  
+        "User 2": ["", "", "", ""], 
+        "Place": ["", "", "", ""]
+    }
+        
+    index = ["Round 1 - 11 Apr. 2024", "Round 2 - 12 Apr. 2024", "Round 3 - 13 Apr. 2024", "Round 4 - 14 Apr. 2024"]
+    df = pd.DataFrame(data, index=index)
+    st.dataframe(df)
+
 def update_game_data(data, sha):
     """Function to update game data on GitHub."""
     update_data = {
@@ -146,18 +159,8 @@ def app():
         if 'selections_locked' in st.session_state and st.session_state['selections_locked']:
             # Display confirmation message
             st.markdown("Your selections have been locked in for this round.")
-        
-        st.subheader("Scores")
-        data = {
-            "User 1": ["", "", "", ""],  
-            "User 2": ["", "", "", ""], 
-            "Place": ["", "", "", ""]  
-        }
-        
-        index = ["Round 1 - 11 Apr. 2024", "Round 2 - 12 Apr. 2024", "Round 3 - 13 Apr. 2024", "Round 4 - 14 Apr. 2024"]
-        
-        df = pd.DataFrame(data, index=index)
-        st.dataframe(df)
+
+        dataframe()
 
         st.image("https://github.com/johannesaschoff/johannesaschoff/blob/main/2016-MASTERS-COURSE-MAP.jpg?raw=true", width=200, use_column_width='always')
 
