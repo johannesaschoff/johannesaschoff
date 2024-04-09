@@ -45,7 +45,7 @@ def dataframe():
     }
         
     index = ["Round 1 - 11 Apr. 2024", "Round 2 - 12 Apr. 2024", "Round 3 - 13 Apr. 2024", "Round 4 - 14 Apr. 2024"]
-    return df = pd.DataFrame(data, index=index)
+    return pd.DataFrame(data, index=index)
 
 
 def update_dataframe(round_number, user1_value, user2_value):
