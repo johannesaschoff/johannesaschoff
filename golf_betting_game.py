@@ -146,7 +146,7 @@ def app():
             "Place": ["", "", "", ""]  
         }
         
-        index = ["Round 1", "Round 2", "Round 3", "Round 4"]
+        index = ["Round 1 - 11 Apr. 2024", "Round 2 - 12 Apr. 2024", "Round 3 - 13 Apr. 2024", "Round 4 - 14 Apr. 2024"]
         
         df = pd.DataFrame(data, index=index)
         st.dataframe(df)
