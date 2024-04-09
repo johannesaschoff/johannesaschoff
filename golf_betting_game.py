@@ -84,23 +84,7 @@ def app():
 
     st.write(f"Current Round: {game_data['current_round']}")
 
-    col1, col2 = st.columns([3, 1])
-    
-    with col1:
-        if game_data['current_round'] > 4:
-            winner = max(game_data['scores'], key=game_data['scores'].get)
-            st.header(f"Game Over - Winner: {winner}")
-            return
-        
-        st.subheader("Select Your Golfer")
-        for user in ["User 1", "User 2"]:
-
-            last_selection = game_data['selections'].get(user, "")
-
-            # Ensure each selection box is uniquely keyed
-            selection_key = f"{user}_selection_{game_data['current_round']}"
-            selected_golfer = st.selectbox(f"{user}, select your golfer:",
-                                                         ["Ludvig Aberg (SWEDEN)", 
+    golfers = ["Ludvig Aberg (SWEDEN)", 
                                                           "Byeong Hun An (KOREA)", 
                                                           "Akshay Bhatia (UNITED STATES)",
                                                           "Keegan Bradley (UNITED STATES)",
@@ -188,7 +172,23 @@ def app():
                                                           "Gary Woodland (UNITED STATES)",
                                                           "Tiger Woods (UNITED STATES)",
                                                           "Cameron Young (UNITED STATES)",
-                                                          "Will Zalatoris (UNITED STATES)"], index=golfers.index(last_selection), key=selection_key)
+                                                          "Will Zalatoris (UNITED STATES)"]
+    col1, col2 = st.columns([3, 1])
+    
+    with col1:
+        if game_data['current_round'] > 4:
+            winner = max(game_data['scores'], key=game_data['scores'].get)
+            st.header(f"Game Over - Winner: {winner}")
+            return
+        
+        st.subheader("Select Your Golfer")
+        for user in ["User 1", "User 2"]:
+
+            last_selection = game_data['selections'].get(user, "")
+
+            # Ensure each selection box is uniquely keyed
+            selection_key = f"{user}_selection_{game_data['current_round']}"
+            selected_golfer = st.selectbox(f"{user}, select your golfer:", options = golfers, index=golfers.index(last_selection), key=selection_key)
                         
             game_data['selections'][user] = selected_golfer
 
