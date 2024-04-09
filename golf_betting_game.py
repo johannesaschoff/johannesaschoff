@@ -54,8 +54,8 @@ def update_dataframe(round_number, user1_value, user2_value):
         st.session_state.df = dataframe()
         df = st.session_state.df
 
-        df.at[index[round_number], "User 1"] = user1_value
-        df.at[index[round_number], "User 2"] = user2_value
+        df.at[df.index[round_number], "User 1"] = user1_value
+        df.at[df.index[round_number], "User 2"] = user2_value
     
         st.session_state.df = df
         st.subheader("Scores")
