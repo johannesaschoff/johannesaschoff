@@ -47,7 +47,7 @@ def update_game_data(data, sha):
 
 # Example usage within Streamlit
 def app():
-    st.title(f"{GITHUB_TOKEN}")
+    st.title("Golf Batteling Game")
     
     game_data, sha = read_game_data()
     if not game_data:
