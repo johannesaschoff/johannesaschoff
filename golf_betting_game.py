@@ -2,9 +2,8 @@ import streamlit as st
 import requests
 import json
 import base64
-import os
 
-# Securely load your GitHub token from an environment variable
+# Securely load your GitHub token from Streamlit secrets
 GITHUB_TOKEN = st.secrets["GITHUB_TOKEN"]
 
 headers = {
@@ -12,13 +11,15 @@ headers = {
     "Accept": "application/vnd.github.v3+json"
 }
 
-# Correct repository and file path details
-repo = "johannesaschoff/johannesaschoff"  # GitHub username or organization
+# Assuming 'johannesaschoff' is both your username and the repository name
+# Update 'repo' if your repository name is different
+repo = "johannesaschoff"
 file_path = "game_data.json"  # Path to your file within the repository
 branch = "main"
 
 def get_api_url():
-    return f"https://api.github.com/repos/{repo}/{repo}/contents/{file_path}?ref={branch}"
+    # Correctly format the API URL
+    return f"https://api.github.com/repos/{repo}/contents/{file_path}?ref={branch}"
 
 # Function to read game data from GitHub
 def read_game_data():
@@ -47,14 +48,55 @@ def update_game_data(data, sha):
 
 # Example usage within Streamlit
 def app():
-    st.title("Golf Batteling Game")
+    st.title("Golf Betting Game")
     
     game_data, sha = read_game_data()
     if not game_data:
         st.stop()
 
-    # Example of displaying and updating game data
-    # Add your game logic here
+import streamlit as st
+
+# Assuming the rest of your setup is as previously defined...
+
+def app():
+    st.title("Golf Betting Game")
+    
+    # Fetch the current game data from GitHub
+    game_data, sha = read_game_data()
+    if not game_data:
+        st.stop()
+
+    # Display current round and scores
+    st.write(f"Current Round: {game_data['current_round']}")
+    st.write("Scores:", game_data['scores'])
+
+    # If the game is over, display the winner and stop
+    if game_data['current_round'] > 4:
+        winner = max(game_data['scores'], key=game_data['scores'].get)
+        st.header(f"Game Over - Winner: {winner}")
+        return
+
+    # Allow each user to select a golfer
+    for user in ["User 1", "User 2"]:
+        game_data['selections'][user] = st.selectbox(f"{user}, select your golfer:",
+                                                     ['Golfer 1', 'Golfer 2', 'Golfer 3', 'Golfer 4', 'Golfer 5'],
+                                                     key=user)
+
+    # Lock in selections and update GitHub
+    if st.button("Lock in Selections"):
+        update_game_data(game_data, sha)
+
+    # Manually set the round winner and update scores
+    if st.button("Set Round Winner"):
+        winner = st.radio("Who won the round?", ["User 1", "User 2"])
+        if winner:
+            game_data['scores'][winner] += 1
+            game_data['current_round'] += 1
+            update_game_data(game_data, sha)
+            st.success(f"{winner} wins Round {game_data['current_round'] - 1}!")
+
+if __name__ == "__main__":
+    app()
 
 if __name__ == "__main__":
     app()
