@@ -79,9 +79,9 @@ def app():
     # Layout with 2 columns: Left for selections, right for leaderboard
     col1, col2 = st.columns([3, 1])
     
-    # Simulated game data for demonstration
+    # Adjust the game data as per your actual game's data structure
     game_data = {
-        "scores": {"User 1": 5, "User 2": 3, "User 3": 7}
+        "scores": {"User 1": 5, "User 2": 3}  # Adjusted to two users for this example
     }
     
     with col1:
