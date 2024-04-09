@@ -116,7 +116,7 @@ def app():
 
     st.set_page_config(layout="wide",
                        page_title="Masters Golf Challenge",
-                       page_icon="https://res.cloudinary.com/pgatour-prod/d_tournaments:logos:r000.png/tournaments/logos/r014.png")
+                       page_icon="⛳")
 
 
     st.image("https://photo-assets.masters.com/images/pics/misc/Masters_Lockup1A_RGB.png", width=200)
