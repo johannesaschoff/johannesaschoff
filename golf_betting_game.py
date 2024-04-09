@@ -36,7 +36,7 @@ def read_game_data():
         return {}, ""
 
 
-def dataframe():
+def dataframe(round_number, user1_value, user2_value):
     st.subheader("Scores")
     data = {
         "User 1": ["", "", "", ""],  
@@ -46,6 +46,10 @@ def dataframe():
         
     index = ["Round 1 - 11 Apr. 2024", "Round 2 - 12 Apr. 2024", "Round 3 - 13 Apr. 2024", "Round 4 - 14 Apr. 2024"]
     df = pd.DataFrame(data, index=index)
+    
+    df.at[index[round_number], "User 1"] = user1_value
+    df.at[index[round_number], "User 2"] = user2_value
+    
     st.dataframe(df)
 
 def update_game_data(data, sha):
@@ -124,6 +128,7 @@ def app():
    "Camilo Villegas (COLOMBIA)", "Bubba Watson (UNITED STATES)", "Mike Weir (CANADA)",  "Danny Willett (ENGLAND)",  "Gary Woodland (UNITED STATES)",
      "Tiger Woods (UNITED STATES)",  "Cameron Young (UNITED STATES)",  "Will Zalatoris (UNITED STATES)"]
     col1, col2 = st.columns([3, 1])
+
     
     with col1:
         if game_data['current_round'] > 4:
@@ -155,10 +160,14 @@ def app():
             update_game_data(game_data, sha)
             # Use session_state to track that selections are locked in for this round
             st.session_state['selections_locked'] = True
+        
 
         if 'selections_locked' in st.session_state and st.session_state['selections_locked']:
             # Display confirmation message
             st.markdown("Your selections have been locked in for this round.")
+
+
+        dataframe(2, "Golfer A", "Golfer B")
 
         st.image("https://github.com/johannesaschoff/johannesaschoff/blob/main/2016-MASTERS-COURSE-MAP.jpg?raw=true", width=200, use_column_width='always')
 
