@@ -37,7 +37,6 @@ def read_game_data():
 
 
 def dataframe():
-    st.subheader("Scores")
     data = {
         "User 1": ["", "", "", ""],  
         "User 2": ["", "", "", ""], 
