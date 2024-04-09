@@ -97,7 +97,12 @@ def app():
             # Ensure each selection box is uniquely keyed
             selection_key = f"{user}_selection_{game_data['current_round']}"
             game_data['selections'][user] = st.selectbox(f"{user}, select your golfer:",
-                                                         ['Golfer 1', 'Golfer 2', 'Golfer 3', 'Golfer 4', 'Golfer 5'], key=selection_key)
+                                                         ["Ludvig Aberg (SWEDEN)", 
+                                                          "Byeong Hun An (KOREA)", 
+                                                          "Akshay Bhatia (UNITED STATES)",
+                                                          "Keegan Bradley (UNITED STATES),
+                                                          "Sam Burns (UNITED STATES)",
+                                                          "Patrick Cantlay (UNITED STATES)"], key=selection_key)
         
         if st.button("Lock in Selections"):
             game_data['current_round'] += 1
