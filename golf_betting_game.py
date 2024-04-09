@@ -188,7 +188,6 @@ def app():
                                                           "Will Zalatoris (UNITED STATES)"], key=selection_key)
         
         if st.button("Lock in Selections"):
-            game_data['current_round'] += 1
             update_game_data(game_data, sha)
             # Use session_state to track that selections are locked in for this round
             st.session_state['selections_locked'] = True
