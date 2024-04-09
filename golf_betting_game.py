@@ -100,7 +100,7 @@ def app():
                                                          ["Ludvig Aberg (SWEDEN)", 
                                                           "Byeong Hun An (KOREA)", 
                                                           "Akshay Bhatia (UNITED STATES)",
-                                                          "Keegan Bradley (UNITED STATES),
+                                                          "Keegan Bradley (UNITED STATES)",
                                                           "Sam Burns (UNITED STATES)",
                                                           "Patrick Cantlay (UNITED STATES)"], key=selection_key)
         
