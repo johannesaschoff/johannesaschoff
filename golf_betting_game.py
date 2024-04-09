@@ -75,7 +75,7 @@ def app():
 
     st.image("https://photo-assets.masters.com/images/pics/misc/Masters_Lockup1A_RGB.png", width=200)
 
-    st.title("Golf Betting Game")
+    st.title("Augusta Aces: The 2024 Masters Golf Betting Challenge")
     
     # Fetch the current game data from GitHub
     game_data, sha = read_game_data()
