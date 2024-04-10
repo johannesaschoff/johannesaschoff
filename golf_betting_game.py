@@ -219,6 +219,9 @@ def app():
         
         display_leaderboard(game_data['scores'], col2)
 
+    
+    st.write(f"TheEnvir GmbH")
+
 
 if __name__ == "__main__":
     app() 
