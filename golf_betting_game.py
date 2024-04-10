@@ -36,15 +36,15 @@ def read_game_data():
         return {}, ""
 
 
-#def dataframe():
- #   data = {
- #       "User 1": ["", "", "", ""],  
- #       "User 2": ["", "", "", ""], 
- #       "Place": ["", "", "", ""]
- #   }
+def dataframe():
+    data = {
+        "User 1": ["", "", "", ""],  
+        "User 2": ["", "", "", ""], 
+        "Place": ["", "", "", ""]
+    }
         
-#    index = ["Round 1 - 11 Apr. 2024", "Round 2 - 12 Apr. 2024", "Round 3 - 13 Apr. 2024", "Round 4 - 14 Apr. 2024"]
-#    return pd.DataFrame(data, index=index)
+    index = ["Round 1 - 11 Apr. 2024", "Round 2 - 12 Apr. 2024", "Round 3 - 13 Apr. 2024", "Round 4 - 14 Apr. 2024"]
+    return pd.DataFrame(data, index=index)
 
 
 #def update_dataframe():
@@ -183,6 +183,8 @@ def app():
         
         if st.button("Lock in Selections"):
             update_game_data(game_data, sha)
+
+        dataframe()
             # Use session_state to track that selections are locked in for this round
      #       st.session_state['selections_locked'] = True
 
