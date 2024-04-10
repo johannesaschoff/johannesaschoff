@@ -112,7 +112,6 @@ def app():
 
     st.write(f"Prize Maxima: Game night")
     st.write(f"Prize Johannes: Yoga")
-v
 
 
     golfers = ["Ludvig Aberg (SWEDEN)", "Byeong Hun An (KOREA)", "Akshay Bhatia (UNITED STATES)", "Keegan Bradley (UNITED STATES)",
