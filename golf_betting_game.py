@@ -110,6 +110,11 @@ def app():
     st.write(f"Deadline first round: {game_data['deadline']}")
 
 
+    st.write(f"Prize Maxima: Game night")
+    st.write(f"Prize Johannes: Yoga")
+v
+
+
     golfers = ["Ludvig Aberg (SWEDEN)", "Byeong Hun An (KOREA)", "Akshay Bhatia (UNITED STATES)", "Keegan Bradley (UNITED STATES)",
     "Sam Burns (UNITED STATES)", "Patrick Cantlay (UNITED STATES)",  "Wyndham Clark (UNITED STATES)","Eric Cole (UNITED STATES)",
    "Corey Conners (CANADA)","Fred Couples (UNITED STATES)","Cameron Davis (AUSTRALIA)", "Jason Day (AUSTRALIA","Bryson DeChambeau (UNITED STATES)",
@@ -219,8 +224,6 @@ def app():
         
         display_leaderboard(game_data['scores'], col2)
 
-    
-    st.write(f"TheEnvir GmbH")
 
 
 if __name__ == "__main__":
