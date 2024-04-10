@@ -32,24 +32,19 @@ def read_game_data():
         st.error(f"Failed to fetch game data: {response.json()}")
         return {}, ""
 
-def update_dataframe(game_data):
-    """Update the DataFrame with selections from game data."""
-    data = {
-        "Maxima": ["", "", "", ""],  
-        "Johannes": ["", "", "", ""]
-    }
-    index = ["Round 1 - 11 Apr. 2024", "Round 2 - 12 Apr. 2024", "Round 3 - 13 Apr. 2024", "Round 4 - 14 Apr. 2024"]
-    df = pd.DataFrame(data, index=index)
-    
-    # Iterate through each round and update selections
-    for round_number in range(1, game_data['current_round'] + 1):
-        round_index = round_number - 1
-        selections = game_data['selections'].get(str(round_number), {})
-        user1_selection = selections.get('Maxima', "")
-        user2_selection = selections.get('Johannes', "")
-        df.at[df.index[round_index], 'Maxima'] = user1_selection
-        df.at[df.index[round_index], 'Johannes'] = user2_selection
-    
+def generate_dataframe(game_data):
+    """Generates a pandas DataFrame from game data selections."""
+    # Prepare DataFrame structure
+    rounds = ["Round 1 - 11 Apr. 2024", "Round 2 - 12 Apr. 2024", "Round 3 - 13 Apr. 2024", "Round 4 - 14 Apr. 2024"]
+    data = {"Maxima": ["", "", "", ""], "Johannes": ["", "", "", ""]}
+    df = pd.DataFrame(data, index=rounds)
+
+    # Populate DataFrame with selections from game_data
+    for round, selections in game_data['selections'].items():
+        if selections.get("Maxima", None) and selections.get("Johannes", None):
+            df.loc[rounds[int(round)-1], "Maxima"] = selections["Maxima"]
+            df.loc[rounds[int(round)-1], "Johannes"] = selections["Johannes"]
+
     return df
 
     
@@ -146,23 +141,18 @@ def app():
             return
         
 
-        current_round_str = str(game_data['current_round'])
-        if current_round_str not in game_data['selections']:
-            game_data['selections'][current_round_str] = {}
-
-
+        current_round = str(game_data['current_round'])
         for user in ["Maxima", "Johannes"]:
-            user_selection = st.selectbox(f"{user}, select your golfer:", options=golfers, index=0, key=f"{user}_selection")
-        # Save the selection temporarily without updating the JSON file yet
-            game_data['selections'][current_round_str][user] = user_selection
+            selection = game_data['selections'].get(current_round, {}).get(user, golfers[0])
+            selection_index = golfers.index(selection) if selection in golfers else 0
+            user_selection = st.selectbox(f"{user}, select your golfer for Round {current_round}:", golfers, index=selection_index, key=f"{user}_selection_{current_round}")
+            game_data['selections'][current_round][user] = user_selection
 
+        # Update selections and GitHub
         if st.button("Lock in Selections"):
-        # Update game data on GitHub
             update_game_data(game_data, sha)
-            st.success("Selections have been locked in.")
-
-    # Display the DataFrame with selections
-        df = update_dataframe(game_data)
+            
+        df = generate_dataframe(game_data)
         st.dataframe(df)
     
        # st.subheader("Select Your Golfer")
