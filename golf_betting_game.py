@@ -1,6 +1,3 @@
-
-
-
 import streamlit as st
 import requests
 import json
@@ -35,35 +32,25 @@ def read_game_data():
         st.error(f"Failed to fetch game data: {response.json()}")
         return {}, ""
 
-
-def dataframe():
+def update_dataframe(game_data):
+    """Update the DataFrame with selections from game data."""
     data = {
         "Maxima": ["", "", "", ""],  
-        "Johannes": ["", "", "", ""], 
-        "Place": ["", "", "", ""]
+        "Johannes": ["", "", "", ""]
     }
-        
     index = ["Round 1 - 11 Apr. 2024", "Round 2 - 12 Apr. 2024", "Round 3 - 13 Apr. 2024", "Round 4 - 14 Apr. 2024"]
-    return pd.DataFrame(data, index=index)
-
-
-def update_dataframe():
-    if 'df' not in st.session_state:
-        st.session_state.df = dataframe()
+    df = pd.DataFrame(data, index=index)
     
-    df = st.session_state.df
-    
+    # Iterate through each round and update selections
     for round_number in range(1, game_data['current_round'] + 1):
-        round_index = round_number - 1  
-        user1_selection = game_data['selections']['Maxima']
-        user2_selection = game_data['selections']['Johannes']
-        if user1_selection and user2_selection:  # Ensure there's actually a selection to update
-            df.at[df.index[round_index], 'Maxima'] = user1_selection
-            df.at[df.index[round_index], 'Johannes'] = user2_selection
-
-    st.session_state.df = df
-    st.subheader("Scores")
-    st.dataframe(df)
+        round_index = round_number - 1
+        selections = game_data['selections'].get(str(round_number), {})
+        user1_selection = selections.get('Maxima', "")
+        user2_selection = selections.get('Johannes', "")
+        df.at[df.index[round_index], 'Maxima'] = user1_selection
+        df.at[df.index[round_index], 'Johannes'] = user2_selection
+    
+    return df
 
     
 def update_game_data(data, sha):
@@ -120,6 +107,7 @@ def app():
     
     # Fetch the current game data from GitHub
     game_data, sha = read_game_data()
+    
     if not game_data:
         st.stop()
 
@@ -151,35 +139,58 @@ def app():
 
     
     with col1:
+
         if game_data['current_round'] > 4:
             winner = max(game_data['scores'], key=game_data['scores'].get)
             st.header(f"Game Over - Winner: {winner}")
             return
         
-        st.subheader("Select Your Golfer")
+
+        current_round_str = str(game_data['current_round'])
+        if current_round_str not in game_data['selections']:
+            game_data['selections'][current_round_str] = {}
+
+
         for user in ["Maxima", "Johannes"]:
-            last_selection = game_data['selections'].get(user, "")
+            user_selection = st.selectbox(f"{user}, select your golfer:", options=golfers, index=0, key=f"{user}_selection")
+        # Save the selection temporarily without updating the JSON file yet
+            game_data['selections'][current_round_str][user] = user_selection
+
+        if st.button("Lock in Selections"):
+        # Update game data on GitHub
+            update_game_data(game_data, sha)
+            st.success("Selections have been locked in.")
+
+    # Display the DataFrame with selections
+        df = update_dataframe(game_data)
+        st.dataframe(df)
+    
+       # st.subheader("Select Your Golfer")
+       # for user in ["Maxima", "Johannes"]:
+       #     last_selection = game_data['selections'].get(user, "")
 
             
-            selection_key = f"{user}_selection_{game_data['current_round']}"
+       #     selection_key = f"{user}_selection_{game_data['current_round']}"
 
-            if last_selection in golfers:
-                selected_index = golfers.index(last_selection)
-            else:
-                selected_index = 0  # Default to first golfer if last selection is not found
+        #    if last_selection in golfers:
+        #        selected_index = golfers.index(last_selection)
+        #    else:
+        #        selected_index = 0  # Default to first golfer if last selection is not found
 
-            selected_golfer = st.selectbox(f"{user}, select your golfer:", options=golfers, index=selected_index, key=selection_key)
+       #     selected_golfer = st.selectbox(f"{user}, select your golfer:", options=golfers, index=selected_index, key=selection_key)
                         
-            game_data['selections'][user] = selected_golfer
+       #     game_data['selections'][user] = selected_golfer
 
             # Display the locked-in player for this user
-            st.write(f"Locked in Player: {game_data['selections'][user]}")
+        #    st.write(f"Locked in Player: {game_data['selections'][user]}")
+
+    
 
         
-        if st.button("Lock in Selections"):
-            update_game_data(game_data, sha)
+     #   if st.button("Lock in Selections"):
+      #      update_game_data(game_data, sha)
 
-        dataframe()
+      #  dataframe()
             # Use session_state to track that selections are locked in for this round
      #       st.session_state['selections_locked'] = True
 
