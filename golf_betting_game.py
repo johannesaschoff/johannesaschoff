@@ -38,8 +38,8 @@ def read_game_data():
 
 def dataframe():
     data = {
-        "User 1": ["", "", "", ""],  
-        "User 2": ["", "", "", ""], 
+        "Maxima": ["", "", "", ""],  
+        "Johannes": ["", "", "", ""], 
         "Place": ["", "", "", ""]
     }
         
@@ -47,28 +47,23 @@ def dataframe():
     return pd.DataFrame(data, index=index)
 
 
-#def update_dataframe():
-#    """Updates the DataFrame with selections from all rounds up to the current one."""
-#    if 'df' not in st.session_state:
-#        st.session_state.df = dataframe()
+def update_dataframe():
+    if 'df' not in st.session_state:
+        st.session_state.df = dataframe()
     
-#    df = st.session_state.df
+    df = st.session_state.df
     
-#    # Iterate through each round up to the current one to update selections
-##    for round_number in range(1, game_data['current_round'] + 1):
- #       round_index = round_number - 1  # Convert to 0-based indexing for DataFrame
- #       # Update DataFrame with selections from game_data
- #       user1_selection = game_data['selections']['User 1'][round_index]
- #       user2_selection = game_data['selections']['User 2'][round_index]
-#        if user1_selection and user2_selection:  # Ensure there's actually a selection to update
-#            df.at[df.index[round_index], 'User 1'] = user1_selection
-#            df.at[df.index[round_index], 'User 2'] = user2_selection
-            # Assume 'Place' is calculated or updated elsewhere
+    for round_number in range(1, game_data['current_round'] + 1):
+        round_index = round_number - 1  
+        user1_selection = game_data['selections']['Maxima']
+        user2_selection = game_data['selections']['Johannes']
+        if user1_selection and user2_selection:  # Ensure there's actually a selection to update
+            df.at[df.index[round_index], 'Maxima'] = user1_selection
+            df.at[df.index[round_index], 'Johannes'] = user2_selection
 
-    # Save the updated DataFrame back to session state
-#    st.session_state.df = df
-#    st.subheader("Scores")
-#    st.dataframe(df)
+    st.session_state.df = df
+    st.subheader("Scores")
+    st.dataframe(df)
 
     
 def update_game_data(data, sha):
