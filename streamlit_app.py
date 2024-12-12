@@ -44,6 +44,6 @@ if not existing_data.empty:
         conn.update(worksheet="Names", data=edited_data)
         st.session_state["previous_data"] = edited_data.copy()  # Update session state
         st.success("Changes saved successfully!")
-        st.experimental_rerun()  # Reload to reflect updates
+        st.rerun()  # Automatically reload to reflect updates
 else:
     st.write("No data available to display.")
