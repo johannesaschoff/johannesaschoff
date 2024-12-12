@@ -7,13 +7,16 @@ st.title("Edit Vendor Areas in Google Sheets")
 # Initialize Google Sheets connection
 conn = st.connection("gsheets", type=GSheetsConnection)
 
-# Read data from Google Sheets
-existing_data = conn.read(worksheet="Names")
+# Fetch the latest data from Google Sheets
+def fetch_latest_data():
+    return conn.read(worksheet="Names")
 
-# Always reset session state on reload to load actual values
-if "previous_data" not in st.session_state or st.session_state.get("reload", False):
+# Always load the actual values from Google Sheets
+existing_data = fetch_latest_data()
+
+# Initialize session state to track previous data
+if "previous_data" not in st.session_state:
     st.session_state["previous_data"] = existing_data.copy()
-    st.session_state["reload"] = False  # Reset reload flag
 
 # Display and allow editing of the 'area' column only
 st.subheader("Edit Vendor Area")
@@ -44,8 +47,8 @@ if not existing_data.empty:
         # Update Google Sheets with the new data
         conn.update(worksheet="Names", data=edited_data)
         st.session_state["previous_data"] = edited_data.copy()  # Update session state
-        st.session_state["reload"] = True  # Set reload flag
         st.success("Changes saved successfully!")
         st.rerun()  # Automatically reload to reflect updates
+
 else:
     st.write("No data available to display.")
