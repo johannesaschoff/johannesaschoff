@@ -47,6 +47,6 @@ if not existing_data.empty:
         updated_data = fetch_latest_data()
 
         # Reinitialize `st.data_editor` with the updated data
-        st.experimental_rerun()
+        st.rerun()
 else:
     st.write("No data available to display.")
