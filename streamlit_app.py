@@ -2,11 +2,18 @@ import streamlit as st
 from streamlit_gsheets import GSheetsConnection
 import pandas as pd
 
-st.title("Read Google Sheet as DataFrame")
+st.title("Manage Vendors in Google Sheets")
 
 # Initialize Google Sheets connection
 conn = st.connection("gsheets", type=GSheetsConnection)
 existing_data = conn.read(worksheet="Names")
+
+# Display the current dataframe
+st.subheader("Existing Vendor Data")
+if not existing_data.empty:
+    st.dataframe(existing_data)
+else:
+    st.write("No data available yet.")
 
 # BUSINESS TYPES and PRODUCTS lists
 BUSINESS_TYPES = [
@@ -25,7 +32,9 @@ PRODUCTS = [
     "Other",
 ]
 
+# Form to add or update vendor data
 with st.form(key="vendor_form"):
+    st.subheader("Add or Update Vendor Details")
     company_name = st.text_input(label="Company Name*")
     business_type = st.selectbox("Business Type*", options=BUSINESS_TYPES, index=None)
     products = st.multiselect("Products Offered", options=PRODUCTS)
@@ -73,3 +82,4 @@ with st.form(key="vendor_form"):
 
         # Save updated dataframe to Google Sheets
         conn.update(worksheet="Names", data=existing_data)
+        st.experimental_rerun()  # Reload the app to reflect the updated dataframe
