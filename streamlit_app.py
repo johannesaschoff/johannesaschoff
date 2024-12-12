@@ -11,13 +11,13 @@ conn = st.connection("gsheets", type=GSheetsConnection)
 def fetch_latest_data():
     return conn.read(worksheet="Names")
 
-# Fetch the initial data
+# Initial fetch of data
 existing_data = fetch_latest_data()
 
 # Display and allow editing of the 'area' column only
 st.subheader("Edit Vendor Area")
 if not existing_data.empty:
-    # Allow editing only for the 'area' column
+    # Display and allow editing of the 'area' column
     edited_data = st.data_editor(
         existing_data,
         column_config={
@@ -44,10 +44,9 @@ if not existing_data.empty:
         conn.update(worksheet="Names", data=edited_data)
         
         # Re-fetch the updated data from Google Sheets
-        st.success("Changes saved successfully! Reloading updated data...")
         updated_data = fetch_latest_data()
-        
-        # Display the updated data
-        st.dataframe(updated_data)
+
+        # Reinitialize `st.data_editor` with the updated data
+        st.experimental_rerun()
 else:
     st.write("No data available to display.")
