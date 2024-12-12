@@ -35,7 +35,13 @@ if not existing_data.empty:
     # Button to save changes to Google Sheets
     if st.button("Save Changes"):
         conn.update(worksheet="Names", data=edited_data)
-        st.success("Changes saved successfully!")
-        st.experimental_rerun()  # Reload the app to reflect updates
+        st.session_state["reload_trigger"] = True  # Set reload trigger in session state
+        st.experimental_set_query_params(reload="true")  # Update query params for a soft reload
+
 else:
     st.write("No data available to display.")
+
+# Check for reload trigger
+if "reload_trigger" in st.session_state:
+    del st.session_state["reload_trigger"]  # Clear the trigger to avoid infinite reload loop
+    st.experimental_rerun()  # Safely reload
