@@ -1,6 +1,5 @@
 import streamlit as st
 from streamlit_gsheets import GSheetsConnection
-import time
 import pandas as pd
 
 st.title("Edit Vendor Areas in Google Sheets")
@@ -8,11 +7,12 @@ st.title("Edit Vendor Areas in Google Sheets")
 # Initialize Google Sheets connection
 conn = st.connection("gsheets", type=GSheetsConnection)
 
-# Auto-refresh interval (in seconds)
-REFRESH_INTERVAL = 1
-
 # Read data from Google Sheets
 existing_data = conn.read(worksheet="Names")
+
+# Initialize session state to track previous data
+if "previous_data" not in st.session_state:
+    st.session_state["previous_data"] = existing_data.copy()
 
 # Display and allow editing of the 'area' column only
 st.subheader("Edit Vendor Area")
@@ -38,14 +38,12 @@ if not existing_data.empty:
         disabled=["CompanyName", "BusinessType", "Products", "YearsInBusiness", "OnboardingDate", "AdditionalInfo"]  # Disable other columns
     )
 
-    # Save changes back to Google Sheets
-    if st.button("Save Changes"):
+    # Check if any changes were made to the dataframe
+    if not edited_data.equals(st.session_state["previous_data"]):
+        # Update Google Sheets with the new data
         conn.update(worksheet="Names", data=edited_data)
+        st.session_state["previous_data"] = edited_data.copy()  # Update session state
         st.success("Changes saved successfully!")
-
-    # Refresh data every second
-    time.sleep(REFRESH_INTERVAL)
-    st.rerun()  # Automatically reload the page
-
+        st.experimental_rerun()  # Reload to reflect updates
 else:
     st.write("No data available to display.")
