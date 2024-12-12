@@ -8,7 +8,7 @@ st.title("Edit Vendor Areas in Google Sheets")
 # Initialize Google Sheets connection
 conn = st.connection("gsheets", type=GSheetsConnection)
 
-# Set auto-refresh interval (in seconds)
+# Auto-refresh interval (in seconds)
 REFRESH_INTERVAL = 1
 
 # Read data from Google Sheets
@@ -45,7 +45,7 @@ if not existing_data.empty:
 
     # Refresh data every second
     time.sleep(REFRESH_INTERVAL)
-    st.experimental_rerun()  # Automatically reload the page
+    st.rerun()  # Automatically reload the page
 
 else:
     st.write("No data available to display.")
